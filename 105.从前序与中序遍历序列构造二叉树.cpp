@@ -56,18 +56,20 @@ struct TreeNode{
 // @lc code=start
 #include<bits/stdc++.h>
 using namespace std;
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
-class Solution {
+//https : // leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/solutions/8946/qian-xu-bian-li-python-dai-ma-java-dai-ma-by-liwei/?envType=study-plan-v2&envId=top-interview-150
+        /**
+         * Definition for a binary tree node.
+         * struct TreeNode {
+         *     int val;
+         *     TreeNode *left;
+         *     TreeNode *right;
+         *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+         *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+         *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+         * };
+         */
+        class Solution
+{
 public:
     unordered_map<int, int> index;
     TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder){
@@ -85,7 +87,7 @@ public:
             return nullptr;
         TreeNode *preorder_root = new TreeNode(preorder[preorder_left]); // 先序遍历第一个节点为根结点
         int inorder_index = index[preorder[preorder_left]];//定位中序遍历根结点位置
-        int left_nums = inorder_index - inorder_left;//确定左子树节点数目
+        int left_nums = inorder_index - inorder_left;//确定左子树节点数目,递归求左子树的时候，传入的pre_right根据此长度算出
 
         preorder_root->left = build(preorder, inorder, preorder_left + 1, inorder_index+preorder_left-inorder_left, inorder_left, inorder_index - 1);
         preorder_root->right = build(preorder, inorder, inorder_index + preorder_left - inorder_left+1, preorder_right, inorder_index+1, inordered_right);
