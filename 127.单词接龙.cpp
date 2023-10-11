@@ -11,42 +11,44 @@ using namespace std;
 class Solution {
 public:
     int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
-        unordered_set<string> uset(wordList.begin(), wordList.end());
+        unordered_map<string, int> hashmap;
+        unordered_map<string, int> visited;
         queue<string> que;
-        unordered_set<string> visited;
-        // bool find = false;
-        int step = 1;
-        //for(auto str : wordList) uset.insert(str);
-        if(uset.count(endWord) == 0) return 0;
-        //uset.erase(beginWord);
+        int step = 0;
+     
+        for(auto& str : wordList){
+            hashmap[str] = 1;
+        }
+        if(!hashmap.count(endWord))
+            return step;
         que.push(beginWord);
-        visited.insert(beginWord);
         while(!que.empty()){
+
             int sz = que.size();
-            //Print(que);
-            for(int i = 0; i < sz; i++){
-                //cout << que.front() << " ";
-                string str = que.front();
+            while(sz--){
+                string curr = que.front();
                 que.pop();
-                //visited.insert(str);
-                for(int j = 0; j < str.size(); j++){//hit --> h
-                    for(int k = 0; k < 26; k++){
-                        if(k + 'a' == str[j]) continue;
-                        string tword = str;
-                        tword[j] = k + 'a';
-                        if(tword == endWord){
-                            //find = true;
-                            return step + 1;
-                        } 
-                        if(uset.count(tword) && !visited.count(tword)) {
-                            que.push(tword);
-                            visited.insert(tword);
+                if (curr == endWord)
+                    return step+1;
+                visited[curr] = 1;
+                for (int i = 0; i < curr.size(); i++)
+                {
+                    string next = curr;
+                    for (int j = 0; j < 26; j++)
+                    {
+                        if(next[i] == j + 'a')
+                            continue;
+                        next[i] = j + 'a';
+                        if (hashmap.count(next) && !visited.count(next))
+                        {
+                            que.push(next);
                         }
                     }
                 }
             }
             step++;
         }
+
         return 0;
     }
 };
